@@ -1,6 +1,7 @@
 #pragma once
 
 #include "chassis.h"
+#include "BlueMotor.h"
 
 class Robot
 {
@@ -15,6 +16,8 @@ protected:
         ROBOT_DRIVE_TO_POINT,
         ROBOT_DRIVE_DIST,
         ROBOT_TURN_TO_ANGLE,
+        ROBOT_ELEVATOR,
+        
     };
     ROBOT_STATE robotState = ROBOT_IDLE;
 
@@ -31,6 +34,7 @@ protected:
     Pose destPose;
     float targetDist;
     float targetAngle;
+    BlueMotor elevator;
     
     
 public:
@@ -55,6 +59,7 @@ protected:
     void DriveToDist(void);
     void TurnToAngle(void);
     bool CheckReachedDestination(void);
+    void DriveElevatorToPoint(int level);
     void HandleDestination(void);
 
     float DistToPoint(const Pose& dest);

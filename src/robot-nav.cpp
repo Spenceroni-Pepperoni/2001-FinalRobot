@@ -5,6 +5,20 @@
 #include "robot.h"
 #include "chassis.h"
 #include "Romi32U4MotorTemplate.h"
+#include "utils.h"
+#include "BlueMotor.h"
+
+BlueMotor elevator;
+
+//Elevator positions
+
+const long groundLevel = 0;
+const long firstShelf = 100;
+const long secondShelf = 150;
+const long topShelf = 200;
+
+long positions[] = {groundLevel, secondShelf, firstShelf, topShelf, groundLevel};
+int positions_size = sizeof(positions)/sizeof(positions[0]);
 
 void Robot::UpdatePose(const Twist& twist)
 {   
@@ -188,6 +202,9 @@ void Robot::TurnToAngle(void)
 //     chassis.SetMotorEfforts(0,0);
 // }
 
+void Robot::DriveElevatorToPoint(int level){
+    elevator.setTarget(positions[level]);
+}
 
 void Robot::HandleDestination(void)
 {
@@ -212,4 +229,5 @@ void Robot::HandleDestination(void)
     #endif
 
 }
+
 

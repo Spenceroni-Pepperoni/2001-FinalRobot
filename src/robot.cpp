@@ -3,6 +3,8 @@
 void Robot::InitializeRobot(void)
 {
     chassis.InititalizeChassis();
+    elevator.setup();
+    elevator.reset();
 
     /**
      * TODO: Set pin 13 HIGH when navigating and LOW when destination is reached.
@@ -55,6 +57,9 @@ void Robot::RobotLoop(void)
         {
             TurnToAngle();
             if(CheckReachedDestination()) HandleDestination();
+        }
+        if(robotState == ROBOT_ELEVATOR){
+            
         }
     }
 }

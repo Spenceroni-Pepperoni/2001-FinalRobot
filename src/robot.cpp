@@ -4,6 +4,7 @@
 #include "BlueMotor.h"
 
 Servo32U4Pin12 claw;
+Servo32U4Pin5 slide;
 
 void Robot::InitializeRobot(void)
 {
@@ -63,16 +64,33 @@ void Robot::LiftDelay()
 void Robot::ClawState(CLAW_STATE state) {
     if(state == CLAW_OPEN)
     {
-        claw.setTargetPos(2000); // Open the claw
+        claw.setTargetPos(1500); // Open the claw
+        clawDelay();
+        delay(100);
+        slide.setTargetPos(500); // Extend the slide
+        slideDelay();
+        delay(100);
+
     }
     else if(state == CLAW_CLOSED)
     {
-        claw.setTargetPos(1000); // Close the claw
+        claw.setTargetPos(1900); // Close the claw
+        clawDelay();
+        delay(100);
+        slide.setTargetPos(2500); // Retract the slide
+        slideDelay();
+        delay(100);
+
     }
 }
 
 void Robot::clawDelay() {
     while(!claw.update())
+        delay(20);
+}
+
+void Robot::slideDelay() {
+    while(!slide.update())
         delay(20);
 }
 

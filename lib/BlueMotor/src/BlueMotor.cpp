@@ -152,8 +152,10 @@ void BlueMotor::moveTo(long target)  //Move to this encoder position within the 
 {                                    //tolerance in the header file using proportional control
                                      //then stop
     if (getPosition() < target-5){
+        setEffort(200);
         
     } else if (getPosition() > target + 5){
+        setEffort(-200);
 
     }else{
         setEffort(0);

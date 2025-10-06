@@ -18,6 +18,9 @@ void setup()
 #endif
 
   robot.InitializeRobot();
+
+  robot.elevator.moveTo(2000);
+
 }
 
 Pose TargetPoint[] = {
@@ -38,7 +41,12 @@ void loop()
   //delay(5000);
   //robot.InitializeRobot();
 
+  // robot.ClawState(Robot::CLAW_CLOSED);
 
-  robot.SetDestination(TargetPoint, 2);
-  robot.RobotLoop();
+  //  delay(1000);
+
+  // robot.ClawState(Robot::CLAW_OPEN);
+  
+  //robot.SetDestination(TargetPoint, 2);
+  //robot.RobotLoop();
 }

@@ -18,6 +18,23 @@ protected:
     };
     ROBOT_STATE robotState = ROBOT_IDLE;
 
+    enum LIFT_STATE
+    {
+        LIFT_GROUND = 0,
+        LIFT_FIRST = 500,
+        LIFT_SECOND = 1000,
+        LIFT_TOP = 1500
+    };
+    LIFT_STATE liftState = LIFT_GROUND;
+
+    enum CLAW_STATE
+    {
+        CLAW_OPEN,
+        CLAW_CLOSED
+    };
+    CLAW_STATE clawState = CLAW_OPEN;
+
+
     /* Define the chassis*/
     Chassis chassis;
 
@@ -37,6 +54,11 @@ public:
     Robot(void) {keyString.reserve(10);}
     void InitializeRobot(void);
     void RobotLoop(void);
+    void LiftState(LIFT_STATE state);
+    void LiftDelay();
+    void ClawState(CLAW_STATE state);
+    void clawDelay();
+    void cubePhase(void);
     void SetDestination(Pose path[], int size);
     void SetDistance(float distance);
     void SetAngle(float angle);

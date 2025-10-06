@@ -59,15 +59,23 @@ public:
      * update() moves the servo towards the target position. You will want to 
      * change it to return a bool to detect the event of reaching the target.
      */
-    void update(void) 
+    bool update(void) 
     {
-        if(targetPos == currentPos) {} // no need to update
+        bool reached = false;
+        if(targetPos == currentPos) {reached = true;} // no need to update
 
-        else if(abs(targetPos - currentPos) <= 40) currentPos = targetPos;
-        else if(targetPos > currentPos) currentPos += 40;
-        else if(targetPos < currentPos) currentPos -= 40;
-
+        else if(abs(targetPos - currentPos) <= 40) {
+            currentPos = targetPos;
+            reached = true;
+        }
+        else if(targetPos > currentPos) {
+            currentPos += 40;
+        }
+        else if(targetPos < currentPos) {
+            currentPos -= 40;
+        }
         writeMicroseconds(currentPos);
+        return reached;
     }
 
     uint16_t setMinMaxMicroseconds(uint16_t min, uint16_t max);
@@ -180,3 +188,6 @@ public:
 protected:
     void writeMicroseconds(uint16_t microseconds);
 };
+
+
+Servo32U4Pin12 claw;

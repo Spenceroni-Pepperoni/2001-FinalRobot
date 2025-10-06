@@ -1,10 +1,17 @@
 #include "robot.h"
+#include "servo32u4.h"
+#include "chassis.h"
+#include "BlueMotor.h"
+
+Servo32U4Pin12 claw;
 
 void Robot::InitializeRobot(void)
 {
     chassis.InititalizeChassis();
     elevator.setup();
     elevator.reset();
+    claw.attach();
+    claw.setTargetPos(2000);
 
     /**
      * TODO: Set pin 13 HIGH when navigating and LOW when destination is reached.
@@ -19,6 +26,84 @@ void Robot::EnterIdleState(void)
     Serial.println("-> IDLE");
     robotState = ROBOT_IDLE;
 }
+
+
+
+void Robot::LiftState(LIFT_STATE state)
+{
+    if(state == LIFT_GROUND)
+    {
+        liftState = LIFT_GROUND;
+        elevator.moveTo(LIFT_GROUND); 
+    }
+    else if(state == LIFT_FIRST)
+    {
+        liftState = LIFT_FIRST;
+        elevator.moveTo(LIFT_FIRST);
+    }
+    else if(state == LIFT_SECOND)
+    {
+        liftState = LIFT_SECOND;
+        elevator.moveTo(LIFT_SECOND); 
+    }
+    else if(state == LIFT_TOP)
+    {
+        liftState = LIFT_TOP;
+        elevator.moveTo(LIFT_TOP); 
+    }
+}
+
+void Robot::LiftDelay()
+{
+    int target = liftState;
+    while(elevator.getPosition() != target)
+        delay(20);
+}
+
+void Robot::ClawState(CLAW_STATE state) {
+    if(state == CLAW_OPEN)
+    {
+        claw.setTargetPos(2000); // Open the claw
+    }
+    else if(state == CLAW_CLOSED)
+    {
+        claw.setTargetPos(1000); // Close the claw
+    }
+}
+
+void Robot::clawDelay() {
+    while(!claw.update())
+        delay(20);
+}
+
+
+void Robot::cubePhase(void)
+{
+    //Grabbing bottom cube and bringing it to bottom shelf
+    LiftState(LIFT_GROUND); // Make sure lift is down
+    LiftDelay();
+    ClawState(CLAW_CLOSED); //grab bottom cube
+    LiftState(LIFT_FIRST); //bring to first shelf
+    LiftDelay();
+    ClawState(CLAW_OPEN); //release cube
+
+    //Grabbing middle cube and bringing it to top shelf
+
+    LiftState(LIFT_SECOND); //bring lift to middle shelf
+    LiftDelay();
+    ClawState(CLAW_CLOSED); //grab middle cube
+    LiftState(LIFT_TOP); //bring to top shelf
+    LiftDelay();
+    ClawState(CLAW_OPEN); //release cube
+    LiftState(LIFT_GROUND); //bring lift back to ground
+    LiftDelay();
+    
+
+}
+
+
+
+
 
 /**
  * The main loop for your robot. Process both synchronous events (motor control),

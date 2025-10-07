@@ -153,20 +153,18 @@ bool BlueMotor::atTarget(){
 void BlueMotor::moveTo(long target)  //Move to this encoder position within the specified
 {         
     
-    while(!(abs(getPosition()-target) < 5)){  
-        setTarget(target);
-        setEffort(150);                         //tolerance in the header file using proportional control
+    while((getPosition() <= target + 0.5 || getPosition() >= target - 0.5)){  
+        // setEffort(150);                         //tolerance in the header file using proportional control
         // TeleplotPrint("Pos: ",getPosition());                                 //then stop
-        // if (getPosition() < target-5){
-        //     setEffort(200);
+        if (getPosition() < target-0.5){
+            setEffort(250);
             
-        // } else if (getPosition() > target + 5){
-        //     setEffort(-200);
+        } else if (getPosition() > target + 0.5){
+            setEffort(-250);
 
-        // }else{
-        //     setEffort(0); break;
-        // }
-        updatePID();
+        }else{
+            setEffort(0); break;
+        }
     }
     setEffort(0);
 }

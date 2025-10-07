@@ -1,9 +1,11 @@
 #include <Arduino.h>
 #include "robot.h"
 #include <utils.h>
+#include "Romi32U4Buttons.h"
 
 Robot robot;
-long countF = 0;
+Romi32U4ButtonC ButtonC;
+Romi32U4ButtonB ButtonB;
 
 void setup() 
 {
@@ -46,12 +48,15 @@ void loop()
   // robot.ClawState(Robot::CLAW_CLOSED);
 
   //  delay(1000);
-
-  // robot.ClawState(Robot::CLAW_OPEN);
-  if (countF < 1){
+  while(ButtonC.isPressed()){
     robot.cubePhase();
-    countF++;
   }
+  // robot.ClawState(Robot::CLAW_OPEN);
+  while(ButtonB.isPressed()){
+    robot.elevator.setEffort(-200);
+    robot.elevator.setEffort(0);
+  }
+ 
   
   //robot.SetDestination(TargetPoint, 2);
   //robot.RobotLoop();

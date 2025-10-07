@@ -45,9 +45,9 @@ public:
     enum LIFT_STATE
     {
         LIFT_GROUND = 0,
-        LIFT_FIRST = 500,
-        LIFT_SECOND = 1000,
-        LIFT_TOP = 1500
+        LIFT_FIRST = 1000,
+        LIFT_SECOND = 1500,
+        LIFT_TOP = 2000
     };
     LIFT_STATE liftState = LIFT_GROUND;
 

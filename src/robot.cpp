@@ -122,7 +122,7 @@ void Robot::cubePhase(void)
     LiftState(LIFT_TOP); //bring to top shelf
     LiftDelay();
     ClawState(CLAW_OPEN); //release cube
-    LiftState(LIFT_GROUND); //bring lift back to ground
+    //LiftState(LIFT_GROUND); //bring lift back to ground
     LiftDelay();
     
 

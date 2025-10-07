@@ -3,6 +3,7 @@
 #include <utils.h>
 
 Robot robot;
+long countF = 0;
 
 void setup() 
 {
@@ -18,8 +19,9 @@ void setup()
 #endif
 
   robot.InitializeRobot();
+  
 
-  robot.elevator.moveTo(2000);
+  // robot.elevator.moveTo(2000);
 
 }
 
@@ -38,14 +40,18 @@ Pose TargetPoint[] = {
 
 void loop() 
 {
-  //delay(5000);
-  //robot.InitializeRobot();
+  delay(5000);
+  // robot.InitializeRobot();
 
   // robot.ClawState(Robot::CLAW_CLOSED);
 
   //  delay(1000);
 
   // robot.ClawState(Robot::CLAW_OPEN);
+  if (countF < 1){
+    robot.cubePhase();
+    countF++;
+  }
   
   //robot.SetDestination(TargetPoint, 2);
   //robot.RobotLoop();

@@ -32,33 +32,40 @@ void Robot::EnterIdleState(void)
 
 void Robot::LiftState(LIFT_STATE state)
 {
+    String stateString;
     if(state == LIFT_GROUND)
     {
         liftState = LIFT_GROUND;
+        stateString = "LIFT_GROUND";
         elevator.moveTo(LIFT_GROUND); 
     }
     else if(state == LIFT_FIRST)
     {
         liftState = LIFT_FIRST;
+        stateString = "LIFT_FIRST";
+
         elevator.moveTo(LIFT_FIRST);
     }
     else if(state == LIFT_SECOND)
     {
         liftState = LIFT_SECOND;
+        stateString = "LIFT_SECOND";
         elevator.moveTo(LIFT_SECOND); 
     }
     else if(state == LIFT_TOP)
     {
         liftState = LIFT_TOP;
+        stateString = "LIFT_TOP";
         elevator.moveTo(LIFT_TOP); 
     }
+    TeleplotPrint(("STATE: " + stateString).c_str(), 0);
 }
 
 void Robot::LiftDelay()
 {
-    int target = liftState;
-    while(elevator.getPosition() != target)
-        delay(20);
+    // int target = liftState;
+    // while(elevator.getPosition() != target)
+        delay(500);
 }
 
 void Robot::ClawState(CLAW_STATE state) {
@@ -70,6 +77,7 @@ void Robot::ClawState(CLAW_STATE state) {
         slide.setTargetPos(500); // Extend the slide
         slideDelay();
         delay(100);
+        TeleplotPrint("STATE: CLAW OPEN", 0);
 
     }
     else if(state == CLAW_CLOSED)
@@ -80,6 +88,7 @@ void Robot::ClawState(CLAW_STATE state) {
         slide.setTargetPos(2500); // Retract the slide
         slideDelay();
         delay(100);
+        TeleplotPrint("STATE: CLAW OPEN", 0);
 
     }
 }

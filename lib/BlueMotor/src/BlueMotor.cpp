@@ -1,6 +1,7 @@
 //#include "robot.h"
 #include <Arduino.h>
 #include <BlueMotor.h>
+#include <utils.h>
 //#include "chassis.h"
 //#include <Romi32U4.h>
 
@@ -26,6 +27,7 @@ BlueMotor::BlueMotor()
     lastError = 0;
     integral = 0;
     lastTime = 0;
+    
 }
 
 void BlueMotor::setup()
@@ -39,7 +41,7 @@ void BlueMotor::setup()
     TCCR1B = 0x11; //0b00010001;
     ICR1 = 400;
     OCR1C = 0;
-
+    setPIDGains(Kp, Ki, Kd);
     attachInterrupt(digitalPinToInterrupt(ENCA), isr, CHANGE);
     reset();
 }
@@ -149,16 +151,22 @@ bool BlueMotor::atTarget(){
 
 
 void BlueMotor::moveTo(long target)  //Move to this encoder position within the specified
-{                                    //tolerance in the header file using proportional control
-                                     //then stop
-    if (getPosition() < target-5){
-        setEffort(200);
-        
-    } else if (getPosition() > target + 5){
-        setEffort(-200);
+{         
+    
+    while(!(abs(getPosition()-target) < 5)){  
+        setTarget(target);
+        setEffort(150);                         //tolerance in the header file using proportional control
+        // TeleplotPrint("Pos: ",getPosition());                                 //then stop
+        // if (getPosition() < target-5){
+        //     setEffort(200);
+            
+        // } else if (getPosition() > target + 5){
+        //     setEffort(-200);
 
-    }else{
-        setEffort(0);
+        // }else{
+        //     setEffort(0); break;
+        // }
+        updatePID();
     }
-
+    setEffort(0);
 }

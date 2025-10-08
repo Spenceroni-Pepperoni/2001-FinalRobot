@@ -157,10 +157,10 @@ void BlueMotor::moveTo(long target)  //Move to this encoder position within the 
         // setEffort(150);                         //tolerance in the header file using proportional control
         // TeleplotPrint("Pos: ",getPosition());                                 //then stop
         if (getPosition() < target-0.5){
-            setEffort(250);
+            setEffort(200);
             
         } else if (getPosition() > target + 0.5){
-            setEffort(-250);
+            setEffort(-200);
 
         }else{
             setEffort(0); break;

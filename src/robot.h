@@ -45,9 +45,9 @@ public:
     enum LIFT_STATE
     {
         LIFT_GROUND = 0,
-        LIFT_FIRST = 1000,
-        LIFT_SECOND = 1500,
-        LIFT_TOP = 2000
+        LIFT_FIRST = 2175,
+        LIFT_SECOND = 2500,
+        LIFT_TOP = 3195
     };
     LIFT_STATE liftState = LIFT_GROUND;
 
@@ -68,6 +68,7 @@ public:
     void slideDelay();
     void cubePhase(void);
     void SetDestination(Pose path[], int size);
+    void driveDistance(int distance);
     void SetDistance(float distance);
     void SetAngle(float angle);
 

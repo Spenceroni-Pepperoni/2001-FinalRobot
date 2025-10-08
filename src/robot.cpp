@@ -12,7 +12,7 @@ void Robot::InitializeRobot(void)
     elevator.setup();
     elevator.reset();
     claw.attach();
-    claw.setTargetPos(2000);
+    //claw.setTargetPos(2000);
 
     /**
      * TODO: Set pin 13 HIGH when navigating and LOW when destination is reached.
@@ -71,17 +71,31 @@ void Robot::LiftDelay()
 void Robot::ClawState(CLAW_STATE state) {
     if(state == CLAW_OPEN)
     {
-        claw.setTargetPos(1500); // Open the claw
-        clawDelay();
-        delay(100);
         slide.setTargetPos(500); // Extend the slide
         slideDelay();
         delay(100);
+        claw.setTargetPos(1500); // Open the claw
+        clawDelay();
+        delay(100);
+        slide.setTargetPos(2500); // Retract the slide
+        slideDelay();
+        delay(100);
         TeleplotPrint("STATE: CLAW OPEN", 0);
+        
+        // slide.setTargetPos(500);
+        //     slideDelay();
+        //     delay(500);
+
+        // slide.setTargetPos(2500); // Retract the slide
+        //   slideDelay();
+        //  delay(100);
 
     }
     else if(state == CLAW_CLOSED)
     {
+        slide.setTargetPos(500); // Extend the slide
+        slideDelay();
+        delay(100);
         claw.setTargetPos(1900); // Close the claw
         clawDelay();
         delay(100);
@@ -109,20 +123,32 @@ void Robot::cubePhase(void)
     //Grabbing bottom cube and bringing it to bottom shelf
     LiftState(LIFT_GROUND); // Make sure lift is down
     LiftDelay();
-    ClawState(CLAW_CLOSED); //grab bottom cube
+    claw.setTargetPos(1900); // Close the claw
+        clawDelay();
+        delay(100);
+    //ClawState(CLAW_CLOSED); //grab bottom cube
     LiftState(LIFT_FIRST); //bring to first shelf
     LiftDelay();
+    driveDistance(5);
     ClawState(CLAW_OPEN); //release cube
+    driveDistance(-5);
 
     //Grabbing middle cube and bringing it to top shelf
 
     LiftState(LIFT_SECOND); //bring lift to middle shelf
     LiftDelay();
+    driveDistance(5);
     ClawState(CLAW_CLOSED); //grab middle cube
+    driveDistance(-5);
+
+    
     LiftState(LIFT_TOP); //bring to top shelf
     LiftDelay();
+    
+    driveDistance(5);
     ClawState(CLAW_OPEN); //release cube
-    //LiftState(LIFT_GROUND); //bring lift back to ground
+    driveDistance(-5);
+    LiftState(LIFT_GROUND); //bring lift back to ground
     LiftDelay();
     
 

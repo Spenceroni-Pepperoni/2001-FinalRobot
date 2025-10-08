@@ -118,6 +118,27 @@ bool Robot::CheckReachedDestination(void)
     return retVal;
 }
 
+
+
+void Robot::driveDistance(int distance) {
+    float initialLeft = chassis.LeftMotorTick() / LEFT_TICKS_PER_CM;
+    float initialRight = chassis.RightMotorTick() / RIGHT_TICKS_PER_CM;
+    while(true) {
+        float currentLeft = (chassis.LeftMotorTick() / LEFT_TICKS_PER_CM) - initialLeft;
+        float currentRight = (chassis.RightMotorTick() / RIGHT_TICKS_PER_CM) - initialRight;
+
+
+        TeleplotPrint("Distance: ", (distance - currentLeft));
+
+        if(fabs(distance) < fabs(currentLeft)) break;
+
+        if (distance > 0) chassis.SetMotorEfforts(50,50);
+        else chassis.SetMotorEfforts(-50,-50);
+        delay(20);
+    }
+    chassis.SetMotorEfforts(0,0);
+    }
+
 void Robot::DriveToPoint(void)
 {
     if(robotState == ROBOT_DRIVE_TO_POINT)
@@ -142,8 +163,8 @@ void Robot::DriveToPoint(void)
         /**
          * TODO: Call chassis.SetMotorEfforts() to command the motion, based on your calculations above.
          */
-        if (fabs(distToPoint*50) > 50)   distToPoint = 5;
-        //if (fabs(angleToPoint) > 75)    distToPoint = 0;
+        if (fabs(distToPoint*10) > 100)   distToPoint = 10;
+        if (fabs(angleToPoint) > 75)    distToPoint = 0;
         if (fabs(angleToPoint*3) > 100)  angleToPoint = 50;
 
         chassis.SetMotorEfforts(distToPoint*10  - angleToPoint*3, distToPoint*10 + angleToPoint*2);

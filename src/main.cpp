@@ -25,12 +25,24 @@ void setup()
 
   // robot.elevator.moveTo(2000);
 
+  //while(ButtonC.isPressed()){
+
+  //robot.ClawState(Robot::CLAW_CLOSED);
+
+
+
+    // delay(20000000000);
+    // delay(2000);
+    robot.cubePhase();
+    // delay(1000);
+    // robot.LiftState(Robot::LIFT_GROUND); //bring to first shelf
+
 }
 
 Pose TargetPoint[] = {
-  {100,0,0},
-  {0,0,0},
-  //{0,0,0},
+  {0, 25,0},
+  {-25, 25,0},
+  {-37.5,-7.5,0},
   // {24,24,0},
   // {-24,48,0},
   // {0,-24,0},
@@ -42,15 +54,19 @@ Pose TargetPoint[] = {
 
 void loop() 
 {
-  delay(5000);
+  //delay(5000);
   // robot.InitializeRobot();
 
-  // robot.ClawState(Robot::CLAW_CLOSED);
+  //robot.ClawState(Robot::CLAW_OPEN);
 
   //  delay(1000);
+
   while(ButtonC.isPressed()){
-    robot.cubePhase();
+
+
   }
+
+
   // robot.ClawState(Robot::CLAW_OPEN);
   while(ButtonB.isPressed()){
     robot.elevator.setEffort(-200);
@@ -58,6 +74,6 @@ void loop()
   }
  
   
-  //robot.SetDestination(TargetPoint, 2);
-  //robot.RobotLoop();
+  robot.SetDestination(TargetPoint, 2);
+  robot.RobotLoop();
 }
